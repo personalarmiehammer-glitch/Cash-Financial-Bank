@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFT Private Banking | Sovereign Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #020617; color: white; overflow: hidden; height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .view { display: none; height: 100%; overflow-y: auto; padding-bottom: 120px; }
+        .view.active { display: block; animation: viewIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes viewIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        .nav-btn.active { color: #fbbf24; filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.4)); }
+        .sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; }
+        .sidebar.active { transform: translateX(0); }
+        .cft-logo-gold { background: linear-gradient(135deg, #fbbf24, #d97706); color: #020617; font-weight: 900; font-style: italic; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+        
+        #auth-screen { position: fixed; inset: 0; background: #020617; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
+        .face-id-ring { width: 100px; height: 100px; border: 2px solid #fbbf24; border-radius: 30px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        
+        .crypto-card { background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); border: 1px solid rgba(255,255,255,0.1); }
+        .buy-btn { background: #22c55e; color: white; }
+        .sell-btn { background: #ef4444; color: white; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="auth-screen">
+        <div class="cft-logo-gold w-16 h-12 text-lg mb-12">CFT</div>
+        <div class="face-id-ring flex items-center justify-center mb-6">
+            <i class="fa fa-face-smile text-4xl text-yellow-500"></i>
+        </div>
+        <p class="text-[10px] uppercase font-black tracking-[0.4em] text-gray-500">Secure Biometric Entry</p>
+        <button onclick="authenticate()" class="mt-20 glass px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest">Verify Identity</button>
+    </div>
+
+    <header class="p-6 flex justify-between items-center bg-[#020617]/90 backdrop-blur-md sticky top-0 z-50">
+        <button onclick="toggleSidebar()" class="w-10 h-10 glass rounded-full flex items-center justify-center text-xl">☰</button>
+        <div class="text-center">
+            <h1 class="text-[10px] font-black tracking-[0.3em] text-gray-500 uppercase">Cash Financial Trust</h1>
+            <p id="view-title" class="text-[8px] text-yellow-500 font-bold tracking-widest uppercase">Portfolio</p>
+        </div>
+        <div onclick="switchView('profile')" class="relative w-10 h-10 cursor-pointer">
+            <img src="https://i.ibb.co/3sS78Kx/1000035038.jpg" class="w-full h-full rounded-full border-2 border-yellow-500/30 object-cover">
+            <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-yellow-500 border-2 border-slate-900 rounded-full flex items-center justify-center text-[8px] text-black font-black italic">C</div>
+        </div>
+    </header>
+
+    <div id="sideMenu" class="sidebar fixed inset-y-0 left-0 w-80 bg-[#0f172a] p-8 -translate-x-full shadow-2xl border-r border-white/5">
+        <div class="flex justify-between items-center mb-12">
+            <div class="cft-logo-gold w-12 h-10">CFT</div>
+            <button onclick="toggleSidebar()" class="text-xl">✕</button>
+        </div>
+        <nav class="space-y-4">
+            <button onclick="switchView('home'); toggleSidebar();" class="w-full text-left p-5 glass rounded-2xl flex items-center gap-4 hover:bg-white/10"><i class="fa fa-home text-yellow-500"></i> Portfolio</button>
+            <button onclick="switchView('crypto'); toggleSidebar();" class="w-full text-left p-5 glass rounded-2xl flex items-center gap-4 hover:bg-white/10"><i class="fab fa-bitcoin text-yellow-500"></i> Crypto Exchange</button>
+            <button onclick="switchView('transfer'); toggleSidebar();" class="w-full text-left p-5 glass rounded-2xl flex items-center gap-4 hover:bg-white/10"><i class="fa fa-paper-plane text-yellow-500"></i> Payments</button>
+            <button onclick="switchView('history'); toggleSidebar();" class="w-full text-left p-5 glass rounded-2xl flex items-center gap-4 hover:bg-white/10"><i class="fa fa-list-ul text-yellow-500"></i> History</button>
+            <button onclick="switchView('profile'); toggleSidebar();" class="w-full text-left p-5 glass rounded-2xl flex items-center gap-4 hover:bg-white/10"><i class="fa fa-shield-halved text-yellow-500"></i> Identity</button>
+        </nav>
+    </div>
+
+    <div class="flex-1 overflow-hidden">
+        
+        <div id="home" class="view active p-6 space-y-8">
+            <div class="glass p-8 rounded-[2.5rem] relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-60 h-60 bg-yellow-500/10 rounded-full blur-3xl"></div>
+                <p class="text-[10px] uppercase font-black text-gray-500 mb-2">Total Combined Wealth</p>
+                <h2 class="text-4xl font-bold tracking-tighter">$ 6,422,000.00</h2>
+            </div>
+
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Cold Storage Wallet</p>
+                    <i class="fa fa-qrcode text-yellow-500"></i>
+                </div>
+                <p class="font-mono text-[11px] text-yellow-500/80 bg-black/40 p-3 rounded-xl break-all">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</p>
+                <div class="flex gap-2">
+                    <button class="flex-1 py-2 glass rounded-lg text-[9px] font-black uppercase">Copy Address</button>
+                    <button onclick="switchView('crypto')" class="flex-1 py-2 bg-yellow-500 text-black rounded-lg text-[9px] font-black uppercase">Trade Assets</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="crypto" class="view p-6 space-y-6">
+            <h3 class="text-xl font-black">Digital Exchange</h3>
+            
+            <div class="crypto-card p-6 rounded-[2.5rem] space-y-6">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-500 text-2xl"><i class="fab fa-bitcoin"></i></div>
+                        <div><p class="text-sm font-black">Bitcoin (BTC)</p><p class="text-[10px] text-green-400">Live: $96,442.10</p></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="alert('BTC Buy Order Placed')" class="buy-btn py-4 rounded-2xl font-black uppercase text-xs">Buy BTC</button>
+                    <button onclick="alert('BTC Sell Order Placed')" class="sell-btn py-4 rounded-2xl font-black uppercase text-xs">Sell BTC</button>
+                </div>
+            </div>
+
+            <div class="crypto-card p-6 rounded-[2.5rem] space-y-6">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl"><i class="fab fa-ethereum"></i></div>
+                        <div><p class="text-sm font-black">Ethereum (ETH)</p><p class="text-[10px] text-green-400">Live: $2,741.80</p></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="alert('ETH Buy Order Placed')" class="buy-btn py-4 rounded-2xl font-black uppercase text-xs">Buy ETH</button>
+                    <button onclick="alert('ETH Sell Order Placed')" class="sell-btn py-4 rounded-2xl font-black uppercase text-xs">Sell ETH</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="transfer" class="view p-6 space-y-6">
+            <h3 class="text-xl font-black">Payments</h3>
+            <div class="glass p-8 rounded-[2.5rem] space-y-6">
+                <div class="flex gap-2 p-1 bg-white/5 rounded-2xl">
+                    <button onclick="setTransferType('Local')" class="flex-1 py-3 rounded-xl text-[10px] font-black uppercase bg-yellow-500 text-black">Local</button>
+                    <button onclick="setTransferType('Wire')" class="flex-1 py-3 rounded-xl text-[10px] font-black uppercase text-gray-500">Wire</button>
+                </div>
+                <input type="text" placeholder="0.00" class="w-full bg-transparent border-b border-white/10 py-4 text-3xl font-black focus:outline-none">
+                <div id="wire-fields" class="hidden space-y-4">
+                    <input type="text" placeholder="Recipient IBAN" class="w-full bg-white/5 p-4 rounded-xl text-xs focus:outline-none">
+                    <input type="text" placeholder="SWIFT Code" class="w-full bg-white/5 p-4 rounded-xl text-xs focus:outline-none">
+                </div>
+                <button onclick="alert('Transfer Executed')" class="w-full bg-yellow-500 text-black py-4 rounded-2xl font-black uppercase text-xs">Authorize</button>
+            </div>
+        </div>
+
+        <div id="profile" class="view p-6 space-y-6">
+            <div class="text-center relative py-12 glass rounded-[3rem] overflow-hidden">
+                <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none"><span class="text-[120px] font-black italic">CFT</span></div>
+                <div class="relative z-10">
+                    <img src="https://i.ibb.co/3sS78Kx/1000035038.jpg" class="w-32 h-32 mx-auto rounded-full border-4 border-yellow-500/20 p-1 object-cover mb-4">
+                    <h2 class="text-2xl font-black">Kate Beckinsale</h2>
+                    <p class="text-[10px] text-yellow-500 font-black uppercase tracking-widest mt-2">Private Sovereign Member</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="fixed bottom-0 inset-x-0 glass rounded-t-[2.5rem] p-8 flex justify-around items-center z-50">
+        <button onclick="switchView('home')" id="nav-home" class="nav-btn nav-active flex flex-col items-center gap-1"><i class="fa fa-layer-group text-xl"></i><span class="text-[8px] font-bold uppercase">Portfolio</span></button>
+        <button onclick="switchView('crypto')" id="nav-crypto" class="nav-btn text-gray-600 flex flex-col items-center gap-1"><i class="fab fa-bitcoin text-xl"></i><span class="text-[8px] font-bold uppercase">Exchange</span></button>
+        <button onclick="switchView('transfer')" id="nav-transfer" class="nav-btn text-gray-600 flex flex-col items-center gap-1"><i class="fa fa-paper-plane text-xl"></i><span class="text-[8px] font-bold uppercase">Send</span></button>
+        <button onclick="switchView('profile')" id="nav-profile" class="nav-btn text-gray-600 flex flex-col items-center gap-1"><i class="fa fa-user-shield text-xl"></i><span class="text-[8px] font-bold uppercase">Identity</span></button>
+    </nav>
+
+    <script>
+        function authenticate() {
+            const screen = document.getElementById('auth-screen');
+            screen.style.opacity = '0';
+            setTimeout(() => screen.style.display = 'none', 800);
+        }
+        function toggleSidebar() { document.getElementById('sideMenu').classList.toggle('active'); }
+        function setTransferType(type) {
+            const wireFields = document.getElementById('wire-fields');
+            const btns = event.target.parentElement.querySelectorAll('button');
+            btns.forEach(b => { b.classList.remove('bg-yellow-500', 'text-black'); b.classList.add('text-gray-500'); });
+            event.target.classList.add('bg-yellow-500', 'text-black');
+            event.target.classList.remove('text-gray-500');
+            type === 'Wire' ? wireFields.classList.remove('hidden') : wireFields.classList.add('hidden');
+        }
+        function switchView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => { b.classList.remove('nav-active', 'text-white'); b.classList.add('text-gray-600'); });
+            const activeBtn = document.getElementById('nav-' + viewId);
+            activeBtn.classList.add('nav-active', 'text-white');
+            activeBtn.classList.remove('text-gray-600');
+            const titles = { home: 'Portfolio', crypto: 'Exchange', transfer: 'Capital Move', profile: 'Identity' };
+            document.getElementById('view-title').innerText = titles[viewId];
+        }
+    </script>
+</body>
+</html>
