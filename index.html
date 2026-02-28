@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Financial Trust - Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0f172a; color: white; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* FIX: Sidebars and Modals now allow clicks to pass through when closed */
+        .sidebar { 
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 70;
+            pointer-events: none; /* Disabled when closed */
+        }
+        .sidebar.active { transform: translateX(0); pointer-events: auto; }
+
+        .modal { 
+            display: flex; /* Always flex but invisible */
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 100; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none; /* The "Invisible Wall" Fix */
+            transition: opacity 0.3s ease;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        
+        .nav-active { color: #fbbf24; }
+        button, .cursor-pointer { -webkit-tap-highlight-color: transparent; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="sidebarMenu" class="sidebar fixed inset-y-0 left-0 w-72 bg-[#1e293b] shadow-2xl p-6 -translate-x-full">
+        <div class="flex justify-between items-center mb-10">
+            <h3 class="font-black text-gray-400 uppercase tracking-widest text-xs">Menu</h3>
+            <button onclick="toggleSidebar()" class="text-xl">✕</button>
+        </div>
+        <nav class="space-y-4">
+            <button onclick="location.reload()" class="w-full text-left p-4 glass rounded-2xl font-bold flex items-center gap-3">
+                <i class="fa fa-home text-blue-400"></i> Dashboard
+            </button>
+            <button onclick="openModal('vipModal')" class="w-full text-left p-4 glass rounded-2xl font-bold flex items-center gap-3">
+                <i class="fa fa-crown text-yellow-500"></i> VIP Concierge
+            </button>
+            <button onclick="alert('Session Secured.')" class="w-full text-left p-4 glass rounded-2xl font-bold flex items-center gap-3">
+                <i class="fa fa-shield-alt text-green-400"></i> Security Settings
+            </button>
+            <div class="pt-10">
+                <button onclick="location.reload()" class="w-full p-4 bg-red-500/10 text-red-500 rounded-2xl font-black uppercase text-xs">Logout</button>
+            </div>
+        </nav>
+    </div>
+
+    <header class="p-6 flex justify-between items-center sticky top-0 z-40 bg-[#0f172a]/80 backdrop-blur-md">
+        <button onclick="toggleSidebar()" class="w-10 h-10 glass rounded-full flex items-center justify-center text-xl cursor-pointer">☰</button>
+        <div class="text-center">
+            <h1 class="text-[10px] font-black tracking-[0.3em] text-gray-400 uppercase">Cash Financial Trust</h1>
+            <p class="text-[8px] text-yellow-500 font-bold tracking-widest uppercase">Private Client</p>
+        </div>
+        <div onclick="openModal('vipModal')" class="w-10 h-10 glass rounded-full flex items-center justify-center text-yellow-500 cursor-pointer">
+            <i class="fa fa-crown"></i>
+        </div>
+    </header>
+
+    <main class="p-6 space-y-8 pb-32">
+        <div class="flex items-center gap-4 mb-8">
+            <img id="main-photo" src="https://i.ibb.co/Xz95mP4/kate-beckinsale.jpg" class="w-16 h-16 rounded-2xl object-cover border-2 border-yellow-500/30">
+            <div>
+                <p class="text-xs text-gray-400 font-bold">Good morning,</p>
+                <h2 class="text-2xl font-black">Kate Beckinsale</h2>
+            </div>
+        </div>
+
+        <div class="glass p-8 rounded-[2.5rem] relative overflow-hidden shadow-2xl">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+            <p class="text-[10px] uppercase font-black tracking-widest text-gray-400 mb-2">Total Net Worth</p>
+            <h2 class="text-4xl font-bold tracking-tighter mb-4">$ 6,422,000.00</h2>
+            <div class="flex gap-2">
+                <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded-lg font-bold">+18.4% YoY</span>
+                <span class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-1 rounded-lg font-bold">VIP Tier 1</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div onclick="openModal('jetModal')" class="glass p-5 rounded-3xl flex flex-col items-center text-center gap-2 cursor-pointer hover:bg-white/5 active:scale-95 transition-all">
+                <i class="fa fa-plane-departure text-2xl text-yellow-500"></i>
+                <p class="text-[10px] font-black uppercase">Private Jet</p>
+            </div>
+            <div onclick="openModal('cryptoModal')" class="glass p-5 rounded-3xl flex flex-col items-center text-center gap-2 cursor-pointer hover:bg-white/5 active:scale-95 transition-all">
+                <i class="fa fa-chart-pie text-2xl text-blue-400"></i>
+                <p class="text-[10px] font-black uppercase">Portfolio</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-0 inset-x-0 glass border-t-0 rounded-t-[2.5rem] p-6 flex justify-around items-center z-50">
+        <button onclick="location.reload()" class="nav-active flex flex-col items-center gap-1"><i class="fa fa-home text-xl"></i><span class="text-[8px] font-bold uppercase">Home</span></button>
+        <button onclick="openModal('taxModal')" class="text-gray-500 flex flex-col items-center gap-1"><i class="fa fa-file-invoice text-xl"></i><span class="text-[8px] font-bold uppercase">Docs</span></button>
+        <button onclick="alert('Card Controls Locked for Security')" class="text-gray-500 flex flex-col items-center gap-1"><i class="fa fa-credit-card text-xl"></i><span class="text-[8px] font-bold uppercase">Cards</span></button>
+        <button onclick="openModal('settingsModal')" class="text-gray-500 flex flex-col items-center gap-1"><i class="fa fa-user-cog text-xl"></i><span class="text-[8px] font-bold uppercase">Settings</span></button>
+    </nav>
+
+    <div id="jetModal" class="modal">
+        <div class="bg-[#1e293b] w-full max-w-sm rounded-[2.5rem] p-8 text-center border border-white/10 shadow-3xl">
+            <i class="fa fa-plane text-4xl text-yellow-500 mb-4"></i>
+            <h3 class="text-xl font-black mb-2 uppercase italic">Jet Concierge</h3>
+            <p class="text-xs text-gray-400 mb-8">Direct charter access to London & LA.</p>
+            <button onclick="closeModal('jetModal')" class="w-full bg-white text-black py-4 rounded-2xl font-black text-sm uppercase">Close</button>
+        </div>
+    </div>
+
+    <div id="vipModal" class="modal">
+        <div class="bg-[#1e293b] w-full max-w-sm rounded-[2.5rem] p-8 text-center border border-white/10 shadow-3xl">
+            <i class="fa fa-crown text-4xl text-yellow-500 mb-4"></i>
+            <h3 class="text-xl font-black mb-2">VIP SUPPORT</h3>
+            <p class="text-xs text-gray-400 mb-8 italic">Your Private Banker: Marcus Sterling</p>
+            <button onclick="closeModal('vipModal')" class="w-full bg-yellow-500 text-black py-4 rounded-2xl font-black text-sm uppercase">Secure Chat</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() { 
+            const side = document.getElementById('sidebarMenu');
+            side.classList.toggle('-translate-x-full'); 
+            side.classList.toggle('active');
+        }
+        function openModal(id) { 
+            const m = document.getElementById(id);
+            if(m) m.classList.add('active'); 
+        }
+        function closeModal(id) { 
+            const m = document.getElementById(id);
+            if(m) m.classList.remove('active'); 
+        }
+    </script>
+</body>
+</html>
