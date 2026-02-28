@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Financial Trust Bank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sidebar { transition: transform 0.3s ease-in-out; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
+        .modal.active { display: flex; }
+    </style>
+</head>
+<body class="bg-[#f2f4f7] font-sans">
+
+    <header class="bg-[#1a3a5f] text-white p-4 flex justify-between items-center sticky top-0 z-40 shadow-lg">
+        <button onclick="toggleSidebar()" class="text-2xl">☰</button>
+        <div class="text-center font-black italic text-xs">CASH FINANCIAL <span class="text-blue-400">TRUST</span></div>
+        <i class="fa fa-home-luxe text-xl text-yellow-400"></i>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-6">
+        <div class="bg-gradient-to-br from-gray-900 to-blue-900 text-white p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa fa-key text-6xl"></i></div>
+            <p class="text-[9px] uppercase font-black tracking-widest text-yellow-400">Exclusive VIP Offer</p>
+            <h3 class="text-xl font-bold mt-1">Pre-Approved Mortgage</h3>
+            <h2 class="text-3xl font-black mt-2">$ 10,000,000.00</h2>
+            <div class="mt-4 flex justify-between items-end">
+                <div>
+                    <p class="text-[8px] uppercase opacity-60">Interest Rate</p>
+                    <p class="text-lg font-bold">1.5% Fixed</p>
+                </div>
+                <button onclick="alert('Contacting your Private Banker, Marcus...') " class="bg-yellow-500 text-black px-6 py-2 rounded-full font-black text-[10px] uppercase shadow-lg">Accept Offer</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+            <h3 class="text-xs font-black text-gray-800 mb-4 uppercase tracking-tighter">Premier Property Watch</h3>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600"><i class="fa fa-map-marker-alt"></i></div>
+                        <div>
+                            <p class="text-[11px] font-black">Brentwood, LA</p>
+                            <p class="text-[9px] text-gray-400">Market: Stabilizing (+0.8%)</p>
+                        </div>
+                    </div>
+                    <i class="fa fa-chevron-right text-gray-300"></i>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600"><i class="fa fa-landmark"></i></div>
+                        <div>
+                            <p class="text-[11px] font-black">Central London, UK</p>
+                            <p class="text-[9px] text-gray-400">Market: High Demand</p>
+                        </div>
+                    </div>
+                    <i class="fa fa-chevron-right text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() { /* Sidebar logic */ }
+        function logoutUser() { if(confirm("Sign out?")) location.reload(); }
+    </script>
+</body>
+</html>
